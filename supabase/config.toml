@@ -1,0 +1,3 @@
+[functions.send-fee-reminders]
+verify_jwt = true
+entrypoint = "./functions/send-fee-reminders/index.ts"

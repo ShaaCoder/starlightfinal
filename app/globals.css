@@ -1,0 +1,324 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 0 0% 100%;
+    --foreground: 215 35% 15%;
+
+    --card: 0 0% 100%;
+    --card-foreground: 215 35% 15%;
+
+    --popover: 0 0% 100%;
+    --popover-foreground: 215 35% 15%;
+
+    --primary: 221 83% 53%; /* #2563EB */
+    --primary-foreground: 210 40% 98%;
+
+    --secondary: 0 84% 60%; /* #DC2626 */
+    --secondary-foreground: 210 40% 98%;
+
+    --muted: 210 40% 96.1%;
+    --muted-foreground: 215 20% 45%;
+
+    --accent: 4 90% 52%;
+    --accent-foreground: 0 0% 100%;
+
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 210 40% 98%;
+
+    --border: 214 30% 88%;
+    --input: 214 30% 93%;
+    --ring: 214 88% 51%;
+
+    --radius: 1rem; /* 16px base radius */
+
+    --chart-1: 214 88% 51%;
+    --chart-2: 4 90% 52%;
+    --chart-3: 214 88% 65%;
+    --chart-4: 4 90% 65%;
+    --chart-5: 215 35% 35%;
+  }
+
+  .dark {
+    --background: 222.2 84% 4.9%;
+    --foreground: 210 40% 98%;
+    --card: 222.2 84% 4.9%;
+    --card-foreground: 210 40% 98%;
+    --popover: 222.2 84% 4.9%;
+    --popover-foreground: 210 40% 98%;
+    --primary: 217.2 91.2% 59.8%;
+    --primary-foreground: 222.2 47.4% 11.2%;
+    --secondary: 217.2 32.6% 17.5%;
+    --secondary-foreground: 210 40% 98%;
+    --muted: 217.2 32.6% 17.5%;
+    --muted-foreground: 215 20.2% 65.1%;
+    --accent: 217.2 32.6% 17.5%;
+    --accent-foreground: 210 40% 98%;
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 210 40% 98%;
+    --border: 217.2 32.6% 17.5%;
+    --input: 217.2 32.6% 17.5%;
+    --ring: 224.3 76.3% 48%;
+    --chart-1: 220 70% 50%;
+    --chart-2: 160 60% 45%;
+    --chart-3: 30 80% 55%;
+    --chart-4: 280 65% 60%;
+    --chart-5: 340 75% 55%;
+  }
+
+  *,
+  *::before,
+  *::after {
+    box-sizing: border-box;
+    @apply border-border;
+  }
+
+  html {
+    font-size: 16px;
+    scroll-behavior: smooth;
+    overflow-x: hidden;
+  }
+
+  body {
+    @apply bg-background text-foreground antialiased;
+    overflow-x: hidden;
+    width: 100%;
+    min-height: 100vh;
+  }
+
+  main,
+  section {
+    width: 100%;
+  }
+
+  img,
+  picture,
+  video,
+  canvas,
+  svg {
+    display: block;
+    max-width: 100%;
+    height: auto;
+  }
+
+  button,
+  a,
+  input,
+  textarea,
+  select {
+    touch-action: manipulation;
+  }
+
+  button,
+  a {
+    min-height: 44px;
+  }
+
+  * {
+    min-width: 0;
+  }
+
+  h1 {
+    font-size: clamp(2rem, 5vw, 4.5rem);
+    line-height: 1.1;
+    font-weight: 800;
+  }
+
+  h2 {
+    font-size: clamp(1.75rem, 4vw, 3rem);
+    line-height: 1.15;
+    font-weight: 700;
+  }
+
+  h3 {
+    font-size: clamp(1.25rem, 3vw, 2rem);
+    line-height: 1.2;
+    font-weight: 700;
+  }
+
+  p {
+    font-size: clamp(0.95rem, 1.5vw, 1.1rem);
+    line-height: 1.7;
+  }
+
+  ::selection {
+    background: rgba(37, 99, 235, 0.2);
+    color: #2563eb;
+  }
+}
+
+@layer components {
+  .container-responsive {
+    width: 100%;
+    margin-inline: auto;
+    padding-inline: 1rem;
+  }
+
+  @media (min-width: 640px) {
+    .container-responsive {
+      max-width: 640px;
+    }
+  }
+
+  @media (min-width: 768px) {
+    .container-responsive {
+      max-width: 768px;
+      padding-inline: 1.5rem;
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .container-responsive {
+      max-width: 1024px;
+      padding-inline: 2rem;
+    }
+  }
+
+  @media (min-width: 1280px) {
+    .container-responsive {
+      max-width: 1280px;
+    }
+  }
+
+  @media (min-width: 1536px) {
+    .container-responsive {
+      max-width: 1400px;
+    }
+  }
+
+  .section-padding {
+    padding-top: clamp(4rem, 8vw, 8rem);
+    padding-bottom: clamp(4rem, 8vw, 8rem);
+  }
+
+  .card-responsive {
+    padding: clamp(1rem, 3vw, 2rem);
+    border-radius: clamp(1rem, 2vw, 1.5rem);
+  }
+
+  .table-responsive {
+    overflow-x: auto;
+    width: 100%;
+  }
+
+  .mobile-safe {
+    padding-top: env(safe-area-inset-top);
+    padding-bottom: env(safe-area-inset-bottom);
+  }
+}
+
+@layer utilities {
+  .gradient-primary {
+    background: linear-gradient(135deg, #2563EB 0%, #DC2626 100%);
+  }
+  
+  .gradient-blue-indigo {
+    background: linear-gradient(135deg, #2563EB 0%, #4F46E5 100%);
+  }
+
+  .glassmorphism {
+    background: rgba(255, 255, 255, 0.85);
+    backdrop-filter: blur(25px);
+    -webkit-backdrop-filter: blur(25px);
+    border: 1px solid rgba(30, 94, 219, 0.1);
+  }
+
+  .glassmorphism-dark {
+    background: rgba(30, 25, 35, 0.8);
+    backdrop-filter: blur(25px);
+    -webkit-backdrop-filter: blur(25px);
+    border: 1px solid rgba(231, 48, 48, 0.2);
+  }
+
+  .shadow-soft {
+    box-shadow: 0 2px 20px rgba(30, 94, 219, 0.08);
+  }
+
+  .shadow-card {
+    box-shadow: 0 4px 30px rgba(30, 94, 219, 0.1);
+  }
+
+  .shadow-red {
+    box-shadow: 0 4px 30px rgba(231, 48, 48, 0.1);
+  }
+
+  .card-hover {
+    transition: all 0.3s
+      cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .card-hover:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.12);
+  }
+
+  .hero-title {
+    font-size: clamp(
+      2.5rem,
+      8vw,
+      5.5rem
+    );
+    line-height: 1.05;
+    font-weight: 800;
+  }
+
+  .hero-subtitle {
+    font-size: clamp(
+      1rem,
+      2vw,
+      1.25rem
+    );
+  }
+
+  .section-gap {
+    gap: clamp(
+      1rem,
+      3vw,
+      3rem
+    );
+  }
+
+  .grid-auto-fit {
+    display: grid;
+    grid-template-columns: repeat(
+      auto-fit,
+      minmax(280px, 1fr)
+    );
+    gap: 1.5rem;
+  }
+
+  .text-gradient {
+    background: linear-gradient(
+      135deg,
+      #2563eb,
+      #dc2626
+    );
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+}
+
+/* Custom Scrollbar */
+
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #f8fafc;
+}
+
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(
+    #2563eb,
+    #dc2626
+  );
+  border-radius: 9999px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  opacity: 0.8;
+}
