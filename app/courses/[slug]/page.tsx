@@ -435,7 +435,7 @@ export default async function CourseDetailsPage({
                 your academic goals with confidence.
               </p>
 
-              <Link href="/admission">
+              <Link href="/login">
 
                 <Button
                   size="lg"

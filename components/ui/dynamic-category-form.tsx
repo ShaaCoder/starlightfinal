@@ -182,6 +182,9 @@ export default function DynamicCategoryForm({
   compact = false,
 }: DynamicCategoryFormProps) {
   const readOnly = mode === 'view';
+  // Student signup should only collect personal information + course.
+  // Batch, timing, exam and other category-specific details are assigned/managed by admin.
+  const studentSignup = mode === 'signup';
 
   const typedCourses = courses as CourseWithCategory[];
 
@@ -206,7 +209,7 @@ export default function DynamicCategoryForm({
   ======================================================= */
 
   const enrollmentRequired =
-    form.category === 'nios';
+    form.category === 'nios' && !studentSignup;
 
   /* =======================================================
      LOAD INITIAL DATA
@@ -519,6 +522,21 @@ export default function DynamicCategoryForm({
             .filter(Boolean)
         : [],
     };
+
+    // A student application only submits personal information and course.
+    // Admin will assign exam/batch/timing and other category-specific details.
+    if (studentSignup) {
+      payload.exam = '';
+      payload.level = '';
+      payload.stream = '';
+      payload.session = '';
+      payload.batch = '';
+      payload.batch_timing = '';
+      payload.duration = '';
+      payload.computer_course = '';
+      payload.subjects = [];
+      payload.enrollment_number = '';
+    }
 
     onSubmit(payload);
   };
@@ -868,14 +886,20 @@ export default function DynamicCategoryForm({
             </span>
           </div>
         )}
+
+        {studentSignup && category && (
+          <p className="text-xs text-gray-500">
+            Course details such as exam, batch and batch timing will be assigned by the admin after your application is submitted.
+          </p>
+        )}
       </div>
 
       {/* ===================================================
           GOVERNMENT EXAMS
       =================================================== */}
 
-      {category ===
-        'government_exams' && (
+      {!studentSignup &&
+        category === 'government_exams' && (
         <div className="space-y-4 rounded-2xl border border-amber-100 bg-gradient-to-br from-amber-50 to-orange-50 p-5">
           {!compact && (
             <h4 className="flex items-center gap-2 font-semibold text-gray-900">
@@ -1036,7 +1060,7 @@ export default function DynamicCategoryForm({
           NIOS
       =================================================== */}
 
-      {category === 'nios' && (
+      {!studentSignup && category === 'nios' && (
         <div className="space-y-4 rounded-2xl border border-blue-100 bg-gradient-to-br from-blue-50 to-indigo-50 p-5">
           {!compact && (
             <h4 className="flex items-center gap-2 font-semibold text-gray-900">
@@ -1271,8 +1295,8 @@ export default function DynamicCategoryForm({
           OPEN SCHOOLING
       =================================================== */}
 
-      {category ===
-        'open_schooling' && (
+      {!studentSignup &&
+        category === 'open_schooling' && (
         <div className="space-y-4 rounded-2xl border border-emerald-100 bg-gradient-to-br from-emerald-50 to-green-50 p-5">
           {!compact && (
             <h4 className="flex items-center gap-2 font-semibold text-gray-900">
@@ -1472,8 +1496,8 @@ export default function DynamicCategoryForm({
           COMPUTER COURSES
       =================================================== */}
 
-      {category ===
-        'computer_courses' && (
+      {!studentSignup &&
+        category === 'computer_courses' && (
         <div className="space-y-4 rounded-2xl border border-purple-100 bg-gradient-to-br from-purple-50 to-pink-50 p-5">
           {!compact && (
             <h4 className="flex items-center gap-2 font-semibold text-gray-900">

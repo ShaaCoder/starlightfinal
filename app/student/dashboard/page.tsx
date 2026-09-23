@@ -114,7 +114,9 @@ export default function StudentDashboard() {
    * This prevents a missing profile from accidentally
    * being treated as an approved student.
    */
-  const isApproved = profile?.is_approved === true;
+  const isApproved =
+    profile?.is_approved === true &&
+    profile?.is_active !== false;
 
  useEffect(() => {
   if (authLoading) return;
@@ -364,18 +366,45 @@ export default function StudentDashboard() {
     try {
       const db = supabase as any;
 
+      /*
+       * IMPORTANT:
+       * During student signup, DynamicCategoryForm only collects the
+       * selected course + personal information. Exam, batch, timing,
+       * NIOS subjects, etc. are assigned/managed later by Admin.
+       *
+       * Therefore ALWAYS prefer data.course here.
+       */
       const courseDisplay = (() => {
-        const parts: string[] = [];
-        if (data.category === 'government_exams') {
-          if (data.exam) parts.push(data.exam);
-        } else if (data.category === 'computer_courses') {
-          if (data.computer_course) parts.push(data.computer_course);
-        } else {
-          if (data.level) parts.push(data.level);
-          if (data.stream) parts.push(data.stream);
+        if (data.course?.trim()) {
+          return data.course.trim();
         }
+
+        const parts: string[] = [];
+
+        if (data.category === 'government_exams') {
+          if (data.exam?.trim()) {
+            parts.push(data.exam.trim());
+          }
+        } else if (data.category === 'computer_courses') {
+          if (data.computer_course?.trim()) {
+            parts.push(data.computer_course.trim());
+          }
+        } else {
+          if (data.level?.trim()) {
+            parts.push(data.level.trim());
+          }
+
+          if (data.stream?.trim()) {
+            parts.push(data.stream.trim());
+          }
+        }
+
         return parts.join(' - ');
       })();
+
+      if (!courseDisplay) {
+        throw new Error('Please select a course before submitting.');
+      }
 
       const { error: updateError } = await db
         .from('student_profiles')
@@ -424,12 +453,17 @@ export default function StudentDashboard() {
 
       if (admError) {
         console.error('Admission insert error:', admError);
+
+        throw new Error(
+          admError.message ||
+            'Your profile was updated, but the application could not be submitted.'
+        );
       }
 
       toast({
         title: 'Application Submitted',
         description:
-          'Your course selection has been submitted. The administrator will review your application and assign your batch and class timing.', 
+          'Your course selection has been submitted. The administrator will review your application and assign your batch and class timing.',
       });
 
       setShowProfileForm(false);
@@ -642,6 +676,16 @@ export default function StudentDashboard() {
             </CardHeader>
             <CardContent>
               <DynamicCategoryForm
+                /*
+                 * Student signup mode:
+                 * - Personal information
+                 * - Course
+                 * - Category
+                 *
+                 * Admin-only fields such as exam, batch, batch timing,
+                 * NIOS enrollment/subjects and computer duration are
+                 * intentionally hidden in signup mode.
+                 */
                 mode="signup"
                 initialData={{
                   full_name: profile.full_name || '',
@@ -656,7 +700,7 @@ export default function StudentDashboard() {
                 isLoading={profileSubmitting}
                 submitLabel="Submit Application"
                 courses={courses}
-                includeSubjectsFor
+                includeSubjectsFor={false}
                 compact
               />
               <div className="mt-4 flex justify-end">
