@@ -325,16 +325,14 @@ export default async function CoursesPage() {
 
                       </Link>
 
-                      <Link
-                        href="/admission"
-                        className="flex-1"
-                      >
-
-                        <Button className="w-full rounded-xl bg-gradient-to-r from-blue-600 to-red-600 hover:from-blue-700 hover:to-red-700">
-                          Enroll
-                        </Button>
-
-                      </Link>
+                  <Link
+  href={`/auth/login`}
+  className="flex-1"
+>
+  <Button className="w-full rounded-xl bg-gradient-to-r from-blue-600 to-red-600">
+    Enroll
+  </Button>
+</Link>
 
                     </div>
 

@@ -385,8 +385,8 @@ export default function StudentDashboard() {
           level: data.level || null,
           stream: data.stream || null,
           session: data.session || null,
-          batch: data.batch || null,
-          batch_timing: data.batch_timing || null,
+          // IMPORTANT: batch and batch_timing are assigned by Admin only.
+          // Do not accept or update them from the student form.
           duration: data.duration || null,
           computer_course: data.computer_course || null,
           course: courseDisplay || null,
@@ -413,8 +413,8 @@ export default function StudentDashboard() {
         level: data.level || null,
         stream: data.stream || null,
         session: data.session || null,
-        batch: data.batch || null,
-        batch_timing: data.batch_timing || null,
+        // IMPORTANT: batch and batch_timing are assigned by Admin only.
+        // They are intentionally omitted from the student application.
         duration: data.duration || null,
         computer_course: data.computer_course || null,
         subjects: data.subjects || null,
@@ -427,9 +427,9 @@ export default function StudentDashboard() {
       }
 
       toast({
-        title: 'Profile Updated',
+        title: 'Application Submitted',
         description:
-          'Your course selection has been submitted. An admin will review your application.',
+          'Your course selection has been submitted. The administrator will review your application and assign your batch and class timing.', 
       });
 
       setShowProfileForm(false);
@@ -613,9 +613,9 @@ export default function StudentDashboard() {
                     </Badge>
                   </div>
                   <p className="mt-1 text-sm leading-6 text-gray-600">
-                    Please select your course and category to complete your
-                    registration. This will submit your application for admin
-                    approval.
+                    Select your course and category to submit your application.
+                    Your batch and class timing will be assigned by the
+                    administrator after approval.
                   </p>
                 </div>
                 <Button
@@ -642,7 +642,7 @@ export default function StudentDashboard() {
             </CardHeader>
             <CardContent>
               <DynamicCategoryForm
-                mode="admin-create"
+                mode="signup"
                 initialData={{
                   full_name: profile.full_name || '',
                   email: profile.email || user?.email || '',
@@ -1008,6 +1008,52 @@ export default function StudentDashboard() {
               </div>
             </CardContent>
           </Card>
+
+          {/* === ADMIN ASSIGNED CLASS SCHEDULE === */}
+          {(profile.batch || profile.batch_timing) && (
+            <Card className="border-orange-100 bg-gradient-to-br from-white to-orange-50/40">
+              <CardHeader className="pb-3">
+                <CardTitle className="flex items-center gap-2 text-orange-900">
+                  <Clock className="h-5 w-5" />
+                  Class Schedule
+                </CardTitle>
+                <CardDescription>
+                  Your batch and class timing are assigned by the academy administrator.
+                </CardDescription>
+              </CardHeader>
+              <CardContent>
+                <div className="grid gap-4 sm:grid-cols-2">
+                  {profile.batch && (
+                    <div className="flex items-center gap-3 rounded-lg border border-orange-100 bg-white p-4">
+                      <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-orange-100">
+                        <BookMarked className="h-5 w-5 text-orange-600" />
+                      </div>
+                      <div className="min-w-0">
+                        <p className="text-xs text-gray-500">Assigned Batch</p>
+                        <p className="font-semibold text-gray-900">
+                          {profile.batch}
+                        </p>
+                      </div>
+                    </div>
+                  )}
+
+                  {profile.batch_timing && (
+                    <div className="flex items-center gap-3 rounded-lg border border-orange-100 bg-white p-4">
+                      <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-orange-100">
+                        <Clock className="h-5 w-5 text-orange-600" />
+                      </div>
+                      <div className="min-w-0">
+                        <p className="text-xs text-gray-500">Assigned Timing</p>
+                        <p className="font-semibold text-gray-900">
+                          {profile.batch_timing}
+                        </p>
+                      </div>
+                    </div>
+                  )}
+                </div>
+              </CardContent>
+            </Card>
+          )}
 
           {/* === CATEGORY-SPECIFIC INFORMATION === */}
           {profile.category && (

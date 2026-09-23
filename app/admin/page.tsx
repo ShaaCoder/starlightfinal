@@ -47,6 +47,7 @@ import {
   HelpCircle,
   Building2,
   Monitor,
+  IndianRupee,
 } from 'lucide-react';
 import {
   Dialog,
@@ -65,6 +66,7 @@ import { GallerySection } from '@/components/admin/gallery/gallery-section';
 import QuizSection from '@/components/admin/quiz/quiz-section';
 import UsersSection from '@/components/admin/users/users-section';
 import StudentsSection from '@/components/admin/students/students-section';
+import FeeManagement from '@/components/admin/fees/fee-management';
 
 export default function AdminPage() {
   const router = useRouter();
@@ -1240,6 +1242,9 @@ if (authLoading || isLoading) {
             <TabsTrigger value="students" className="shrink-0 gap-1.5 whitespace-nowrap px-2 py-1.5 text-xs data-[state=active]:bg-blue-600 data-[state=active]:text-white sm:px-3 sm:text-sm">
               <Users className="h-3.5 w-3.5 sm:h-4 sm:w-4" /> Students <span className="ml-1 rounded-full bg-white/20 px-1.5 text-[10px] sm:text-xs">{students.length}</span>
             </TabsTrigger>
+            <TabsTrigger value="fees" className="shrink-0 gap-1.5 whitespace-nowrap px-2 py-1.5 text-xs data-[state=active]:bg-blue-600 data-[state=active]:text-white sm:px-3 sm:text-sm">
+              <IndianRupee className="h-3.5 w-3.5 sm:h-4 sm:w-4" /> Fees
+            </TabsTrigger>
             <TabsTrigger value="leads" className="shrink-0 gap-1.5 whitespace-nowrap px-2 py-1.5 text-xs data-[state=active]:bg-blue-600 data-[state=active]:text-white sm:px-3 sm:text-sm">
               <Mail className="h-3.5 w-3.5 sm:h-4 sm:w-4" /> Contact <span className="ml-1 rounded-full bg-white/20 px-1.5 text-[10px] sm:text-xs">{leads.length}</span>
             </TabsTrigger>
@@ -1455,6 +1460,11 @@ if (authLoading || isLoading) {
           {/* ==================== STUDENTS ==================== */}
           <TabsContent value="students" className="space-y-6">
             <StudentsSection />
+          </TabsContent>
+
+          {/* ==================== FEES ==================== */}
+          <TabsContent value="fees" className="space-y-6">
+            <FeeManagement />
           </TabsContent>
 
           {/* ==================== CONTACT / LEADS ==================== */}
